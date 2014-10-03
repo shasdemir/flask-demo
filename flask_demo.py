@@ -41,7 +41,7 @@ def teardown_request(exception):
 def show_entries():
     cursor = g.db.execute('select title, text from entries order by id desc')
     entries = [{'title': row[0], 'text':row[1]} for row in cursor.fetchall()]
-    return render_template('show_entries.html', entries=entries, logged_in='logged_in' in session.keys())
+    return render_template('show_entries.html', entries=entries, logged_in='logged_in' in session)
 
 
 @app.route('/add', methods=['POST'])
@@ -66,8 +66,8 @@ def login():
             session['logged_in'] = True
             flash('You were logged in!')
             return redirect(url_for('show_entries'))
-    
-    return render_template('login.html', error=error, logged_in='logged_in' in session.keys())
+
+    return render_template('login.html', error=error, logged_in='logged_in' in session)
 
 
 @app.route('/logout')
